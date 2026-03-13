@@ -7,9 +7,9 @@
 # =============================================================================
 
 # ── Configuration ─────────────────────────────────────────────────────────────
-$SERVER_URL  = "https://pc-sentinel-backend.onrender.com/api/heartbeat"   # <-- CHANGE THIS
-$API_KEY     = "80cbb9ae8ad2d21be4b38c2e40934afad22846b0969a1afced01666c0d2698af08c5b6a5bbf56fec5bc7b02ccf6092fe"            # <-- CHANGE THIS
-$INTERVAL    = 60          # Seconds between pings
+$SERVER_URL  = "https://backend url/api/heartbeat"   # <-- CHANGE THIS
+$API_KEY     = "heartbeat-key"            # <-- CHANGE THIS
+$INTERVAL    = 15          # Seconds between pings
 $MAX_RETRIES = 5           # Max retries on failure before waiting next cycle
 $LOG_FILE    = "$env:APPDATA\PCsentinel\sentinel.log"
 $MAX_LOG_KB  = 512         # Rotate log when it exceeds this size (KB)

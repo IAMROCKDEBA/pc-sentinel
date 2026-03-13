@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-16"?>
 <!--
   PC Sentinel — Windows Task Scheduler Import File
+  Runs as SYSTEM at boot — NO login required.
+
   Import via: taskschd.msc → Action → Import Task → select this file
-  OR via PowerShell: Register-ScheduledTask -Xml (Get-Content .\SentinelTask.xml -Raw) -TaskName "PCSentinel"
+  OR via PowerShell (Admin): Register-ScheduledTask -Xml (Get-Content .\SentinelTask.xml -Raw) -TaskName "PCSentinel" -Force
 -->
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Description>PC Sentinel heartbeat agent. Runs silently on login and keeps running in background.</Description>
+    <Description>PC Sentinel heartbeat agent. Runs as SYSTEM at boot — before any user logs in.</Description>
     <Author>PC Sentinel</Author>
   </RegistrationInfo>
   <Triggers>
-    <LogonTrigger>
+    <BootTrigger>
       <Enabled>true</Enabled>
-      <!-- Fires for ANY user logon; restrict to yours if needed -->
-    </LogonTrigger>
+      <!-- 10-second delay gives the network adapter time to connect after boot -->
+      <Delay>PT10S</Delay>
+    </BootTrigger>
   </Triggers>
   <Principals>
     <Principal id="Author">
-      <!-- Change to your Windows username -->
-      <UserId>DESKTOP\YourUsername</UserId>
-      <LogonType>InteractiveToken</LogonType>
-      <RunLevel>LeastPrivilege</RunLevel>
+      <!-- SYSTEM account: no password needed, runs before any login -->
+      <UserId>S-1-5-18</UserId>
+      <RunLevel>HighestAvailable</RunLevel>
     </Principal>
   </Principals>
   <Settings>
     <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
-    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>  <!-- No time limit -->
+    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
     <Priority>7</Priority>
     <RestartOnFailure>
       <Interval>PT1M</Interval>
@@ -38,7 +40,7 @@
     <Exec>
       <Command>powershell.exe</Command>
       <!-- Update the path below to where you saved SentinelAgent.ps1 -->
-      <Arguments>-WindowStyle Hidden -ExecutionPolicy Bypass -NonInteractive -File "C:\Users\YourUsername\PCsentinel\SentinelAgent.ps1"</Arguments>
+      <Arguments>-WindowStyle Hidden -ExecutionPolicy Bypass -NonInteractive -File "C:\PCsentinel\SentinelAgent.ps1"</Arguments>
     </Exec>
   </Actions>
 </Task>
