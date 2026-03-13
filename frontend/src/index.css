@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #080c12;
+    color: #c8dff0;
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0d1520;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1a2840;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .glass {
+    background: rgba(13, 21, 32, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(74, 96, 128, 0.2);
+  }
+
+  .glass-hover {
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .glass-hover:hover {
+    border-color: rgba(77, 159, 255, 0.3);
+    background: rgba(13, 21, 32, 0.85);
+  }
+
+  /* Neon glow text */
+  .glow-green {
+    text-shadow: 0 0 10px #00ff8888, 0 0 30px #00ff8844;
+    color: #00ff88;
+  }
+
+  .glow-red {
+    text-shadow: 0 0 10px #ff335588, 0 0 30px #ff335544;
+    color: #ff3355;
+  }
+
+  .glow-blue {
+    text-shadow: 0 0 10px #4d9fff88, 0 0 30px #4d9fff44;
+    color: #4d9fff;
+  }
+
+  /* Status dot */
+  .dot-online {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00ff88;
+    animation: pulse-green 2s ease-in-out infinite;
+    box-shadow: 0 0 8px 2px #00ff8866;
+  }
+
+  .dot-offline {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff3355;
+    animation: pulse-red 1s ease-in-out infinite;
+    box-shadow: 0 0 8px 2px #ff335566;
+  }
+
+  /* Mesh gradient backgrounds */
+  .mesh-bg {
+    background-color: #080c12;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0, 255, 136, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(77, 159, 255, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 60% 40%, rgba(255, 51, 85, 0.04) 0%, transparent 60%);
+  }
+
+  .mesh-card {
+    background-image:
+      radial-gradient(ellipse 70% 50% at 0% 0%, rgba(0, 255, 136, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(77, 159, 255, 0.05) 0%, transparent 60%);
+  }
+
+  /* Scan line animation */
+  .scan-container {
+    position: relative;
+    overflow: hidden;
+  }
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff8844, #00ff88aa, #00ff8844, transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Mono text */
+  .font-mono-sentinel {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Grid line bg */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(26, 40, 64, 0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 40, 64, 0.4) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 8px 2px #00ff8866; }
+  50%       { box-shadow: 0 0 24px 8px #00ff8899; }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 8px 2px #ff335566; }
+  50%       { box-shadow: 0 0 24px 10px #ff335599; }
+}
+
+@keyframes scan {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(2000%); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(77,159,255,0.15) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}

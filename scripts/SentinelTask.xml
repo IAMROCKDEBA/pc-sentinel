@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<!--
+  PC Sentinel — Windows Task Scheduler Import File
+  Import via: taskschd.msc → Action → Import Task → select this file
+  OR via PowerShell: Register-ScheduledTask -Xml (Get-Content .\SentinelTask.xml -Raw) -TaskName "PCSentinel"
+-->
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>PC Sentinel heartbeat agent. Runs silently on login and keeps running in background.</Description>
+    <Author>PC Sentinel</Author>
+  </RegistrationInfo>
+  <Triggers>
+    <LogonTrigger>
+      <Enabled>true</Enabled>
+      <!-- Fires for ANY user logon; restrict to yours if needed -->
+    </LogonTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="Author">
+      <!-- Change to your Windows username -->
+      <UserId>DESKTOP\YourUsername</UserId>
+      <LogonType>InteractiveToken</LogonType>
+      <RunLevel>LeastPrivilege</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>  <!-- No time limit -->
+    <Priority>7</Priority>
+    <RestartOnFailure>
+      <Interval>PT1M</Interval>
+      <Count>999</Count>
+    </RestartOnFailure>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>powershell.exe</Command>
+      <!-- Update the path below to where you saved SentinelAgent.ps1 -->
+      <Arguments>-WindowStyle Hidden -ExecutionPolicy Bypass -NonInteractive -File "C:\Users\YourUsername\PCsentinel\SentinelAgent.ps1"</Arguments>
+    </Exec>
+  </Actions>
+</Task>
